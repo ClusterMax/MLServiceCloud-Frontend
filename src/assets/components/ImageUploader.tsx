@@ -4,6 +4,8 @@ import { InboxOutlined } from '@ant-design/icons';
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
 import axios from 'axios';
 
+const API_KEY = import.meta.env.VITE_API_KEY;
+
 const { Dragger } = Upload;
 
 const ImageUploader: React.FC = () => {
@@ -20,30 +22,19 @@ const ImageUploader: React.FC = () => {
     setResult(null);
 
     const formData = new FormData();
-    formData.append('image', fileList[0].originFileObj as Blob);
+    formData.append('file', fileList[0].originFileObj as Blob); // Cambia 'image' por 'file'
 
     try {
+      const response = await axios.post('http://localhost:8000/predict/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${API_KEY}`,  // Usar la API Key en el encabezado
+        },
+      });
 
-      const API_KEY = process.env.REACT_APP_API_KEY;
-      const API_SECRET = process.env.REACT_APP_API_SECRET;
-      
-
-      if (!API_KEY || !API_SECRET) {
-        throw new Error('API credentials are missing.');
-      }
-
-      const response = await axios.post(
-        'https://api.imagga.com/v2/tags',
-        formData,
-        {
-          headers: {
-            Authorization: `Basic ${btoa(`${API_KEY}:${API_SECRET}`)}`,
-          },
-        }
-      );
-
-      const tags = response.data.result.tags.map((tag: any) => `${tag.tag.en} (${Math.round(tag.confidence)}%)`);
-      setResult(tags.join(', '));
+      // Extrae la clase predicha del backend
+      const predictedClass = response.data.class;
+      setResult(`Predicted class: ${predictedClass}`);
     } catch (err) {
       setError('Error processing the image. Please try again.');
     } finally {
