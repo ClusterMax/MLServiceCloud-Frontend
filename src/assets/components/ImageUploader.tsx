@@ -9,10 +9,8 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 const { Dragger } = Upload;
 
 interface PredictionResult {
-  predicted_class_index: number;
   predicted_class_name: string;
   predicted_class_probability: number;
-  all_probabilities: { [key: string]: number };
 }
 
 const ImageUploader: React.FC = () => {
@@ -39,14 +37,13 @@ const ImageUploader: React.FC = () => {
         },
       });
 
-      const { predicted_class_index, predicted_class_name, probabilities } = response.data;
+      console.log('Response data:', response.data);
+      const { predicted_class_name, probability } = response.data;
 
       // Reorganizar los resultados
-      const sortedResults = {
-        predicted_class_index,
+      const sortedResults: PredictionResult = {
         predicted_class_name,
-        predicted_class_probability: probabilities[predicted_class_name],
-        all_probabilities: probabilities,
+        predicted_class_probability: probability,
       };
 
       setResult(sortedResults);
@@ -129,14 +126,8 @@ const ImageUploader: React.FC = () => {
               message="Classification Result"
               description={
                 <div>
-                  <p><strong>Predicted Class:</strong> {result.predicted_class_name} (Index: {result.predicted_class_index})</p>
+                  <p><strong>Predicted Class:</strong> {result.predicted_class_name}</p>
                   <p><strong>Confidence:</strong> {(result.predicted_class_probability * 100).toFixed(2)}%</p>
-                  <p><strong>All Probabilities:</strong></p>
-                  <ul>
-                    {Object.entries(result.all_probabilities).map(([key, value]) => (
-                      <li key={key}>{key}: {(value * 100).toFixed(2)}%</li>
-                    ))}
-                  </ul>
                 </div>
               }
               type="success"
