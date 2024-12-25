@@ -57,21 +57,22 @@ const ImageUploader: React.FC = () => {
 
   const uploadProps: UploadProps = {
     beforeUpload: (file) => {
-      const isImage = file.type.startsWith('image/');
+      const isImage = file.type === 'image/png' || file.type === 'image/jpeg';
       if (!isImage) {
-        setError('You can only upload image files!');
+        setError('Only PNG and JPG image files are allowed!');
         return Upload.LIST_IGNORE;
       }
-      return false;
+      return false; // Allow the upload if the file type is correct
     },
     fileList,
     onChange: ({ fileList: newFileList }) => {
       setFileList(newFileList);
-      setError(null);
-      setResult(null);
+      setError(null); // Clear previous errors
+      setResult(null); // Clear previous results
     },
     maxCount: 1,
   };
+  
 
   const reset = () => {
     setFileList([]);
