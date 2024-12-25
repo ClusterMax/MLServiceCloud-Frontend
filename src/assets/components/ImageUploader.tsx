@@ -8,10 +8,17 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 
 const { Dragger } = Upload;
 
+interface PredictionResult {
+  predicted_class_index: number;
+  predicted_class_name: string;
+  predicted_class_probability: number;
+  all_probabilities: { [key: string]: number };
+}
+
 const ImageUploader: React.FC = () => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
+  const [result, setResult] = useState<PredictionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleUpload = async () => {
@@ -22,7 +29,7 @@ const ImageUploader: React.FC = () => {
     setResult(null);
 
     const formData = new FormData();
-    formData.append('file', fileList[0].originFileObj as Blob); // Cambia 'image' por 'file'
+    formData.append('file', fileList[0].originFileObj as Blob);
 
     try {
       const response = await axios.post('/api/predict/', formData, {
@@ -32,8 +39,17 @@ const ImageUploader: React.FC = () => {
         },
       });
 
-      const predictedClass = response.data.class;
-      setResult(`Predicted class: ${predictedClass}`);
+      const { predicted_class_index, predicted_class_name, probabilities } = response.data;
+
+      // Reorganizar los resultados
+      const sortedResults = {
+        predicted_class_index,
+        predicted_class_name,
+        predicted_class_probability: probabilities[predicted_class_name],
+        all_probabilities: probabilities,
+      };
+
+      setResult(sortedResults);
     } catch (err: any) {
       console.error('Error details:', err.response?.data || err.message);
       setError(err.response?.data?.detail || 'Error processing the image. Please try again.');
@@ -111,7 +127,18 @@ const ImageUploader: React.FC = () => {
           <div className="mt-6">
             <Alert
               message="Classification Result"
-              description={result}
+              description={
+                <div>
+                  <p><strong>Predicted Class:</strong> {result.predicted_class_name} (Index: {result.predicted_class_index})</p>
+                  <p><strong>Confidence:</strong> {(result.predicted_class_probability * 100).toFixed(2)}%</p>
+                  <p><strong>All Probabilities:</strong></p>
+                  <ul>
+                    {Object.entries(result.all_probabilities).map(([key, value]) => (
+                      <li key={key}>{key}: {(value * 100).toFixed(2)}%</li>
+                    ))}
+                  </ul>
+                </div>
+              }
               type="success"
               showIcon
               action={
