@@ -25,18 +25,18 @@ const ImageUploader: React.FC = () => {
     formData.append('file', fileList[0].originFileObj as Blob); // Cambia 'image' por 'file'
 
     try {
-      const response = await axios.post('http://localhost:8000/predict/', formData, {
+      const response = await axios.post('/api/predict/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${API_KEY}`,  // Usar la API Key en el encabezado
+          'Authorization': API_KEY,
         },
       });
 
-      // Extrae la clase predicha del backend
       const predictedClass = response.data.class;
       setResult(`Predicted class: ${predictedClass}`);
-    } catch (err) {
-      setError('Error processing the image. Please try again.');
+    } catch (err: any) {
+      console.error('Error details:', err.response?.data || err.message);
+      setError(err.response?.data?.detail || 'Error processing the image. Please try again.');
     } finally {
       setLoading(false);
     }
