@@ -11,6 +11,7 @@ const { Dragger } = Upload;
 interface PredictionResult {
   predicted_class_name: string;
   predicted_class_probability: number;
+  all_probabilities: Record<string, number>;
 }
 
 const ImageUploader: React.FC = () => {
@@ -38,12 +39,13 @@ const ImageUploader: React.FC = () => {
       });
 
       console.log('Response data:', response.data);
-      const { predicted_class_name, probability } = response.data;
+      const { predicted_class_name, probability, all_probabilities } = response.data;
 
       // Reorganizar los resultados
       const sortedResults: PredictionResult = {
         predicted_class_name,
         predicted_class_probability: probability,
+        all_probabilities,
       };
 
       setResult(sortedResults);
@@ -129,6 +131,12 @@ const ImageUploader: React.FC = () => {
                 <div>
                   <p><strong>Predicted Class:</strong> {result.predicted_class_name}</p>
                   <p><strong>Confidence:</strong> {(result.predicted_class_probability * 100).toFixed(2)}%</p>
+                  <p><strong>All Probabilities:</strong></p>
+                  <ul>
+                    {Object.entries(result.all_probabilities).map(([className, probability]) => (
+                      <li key={className}>{className}: {(probability * 100).toFixed(2)}%</li>
+                    ))}
+                  </ul>
                 </div>
               }
               type="success"
