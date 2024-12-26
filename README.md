@@ -62,6 +62,10 @@ docker build -t weather-frontend .
 # Run the container
 docker run -p 3000:3000 weather-frontend
 ```
+## 🚀 Live Deployment
+This application is deployed and accessible on Vercel.
+
+Live Site: [URL]
 
 ## 👥 Contributors
 
