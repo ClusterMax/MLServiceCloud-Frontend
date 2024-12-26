@@ -65,7 +65,7 @@ docker run -p 3000:3000 weather-frontend
 ## 🚀 Live Deployment
 This application is deployed and accessible on Vercel.
 
-Live Site: [URL]
+Live Site: [https://ml-service-cloud-frontend.vercel.app/]
 
 ## 👥 Contributors
 
