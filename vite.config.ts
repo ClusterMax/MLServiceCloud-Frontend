@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'https://imgclassifier-774604876933.us-east1.run.app',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
