@@ -1,0 +1,9 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/:path*",
+        "destination": "https://imgclassifier-774604876933.us-east1.run.app/:path*"
+      }
+    ]
+  }
+  
