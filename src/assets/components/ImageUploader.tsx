@@ -31,7 +31,7 @@ const ImageUploader: React.FC = () => {
     formData.append('file', fileList[0].originFileObj as Blob);
 
     try {
-      const response = await axios.post('/api/predict/', formData, {
+      const response = await axios.post('/predict/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': API_KEY,
