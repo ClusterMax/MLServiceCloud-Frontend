@@ -65,10 +65,10 @@ docker run -p 3000:3000 weather-frontend
 
 ## 👥 Contributors
 
-- [**Arango Guzman Juan Felipe**](https://github.com/yourusername)
-- [**Guerrero Jaramillo Carlos Eduardo**](https://github.com/teammember2)
-- [**Marulanda Valero John Jader**](https://github.com/teammember3)
-- [**Rivera Reyes Miguel Angel**](https://github.com/teammember4)
+- [**Arango Guzman Juan Felipe**](https://github.com/JuanArango30)
+- [**Guerrero Jaramillo Carlos Eduardo**](https://github.com/ClusterMax)
+- [**Marulanda Valero John Jader**](https://github.com/JohnMarulanda)
+- [**Rivera Reyes Miguel Angel**](https://github.com/BitzKort)
 
 ---
 Made with ❤️ for Universidad del Valle - Neural Networks Course
