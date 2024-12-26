@@ -5,6 +5,7 @@ import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
 import axios from 'axios';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
+const API_URL = import.meta.env.VITE_API_URL;
 
 const { Dragger } = Upload;
 
@@ -31,7 +32,7 @@ const ImageUploader: React.FC = () => {
     formData.append('file', fileList[0].originFileObj as Blob);
 
     try {
-      const response = await axios.post('/api/predict/', formData, {
+      const response = await axios.post(API_URL + '/predict/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': API_KEY,
