@@ -43,7 +43,7 @@ npm run dev
 
 ## 🎥 Demo Video
 
-Check out our project demonstration video [here]((https://youtu.be/lvb8Gw3CL24))!  The video showcases the full functionality of our application and provides insights into its features.
+Check out our project demonstration video [here](https://youtu.be/lvb8Gw3CL24)!  The video showcases the full functionality of our application and provides insights into its features.
 
 ## 📝 Documentation
 
