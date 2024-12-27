@@ -70,7 +70,7 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-semibold border-b border-gray-700 pb-2">Project Demo</h3>
             <a
-              href="https://youtu.be/dQw4w9WgXcQ"
+              href="https://youtu.be/lvb8Gw3CL24"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center space-x-2 hover:text-red-400 transition-colors group"
